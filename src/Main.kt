@@ -27,8 +27,20 @@ lateinit var armor: Armor
         println(this.weapon.Display())
     }
 
-    fun Attacking(Opponent: Player){
+    fun DisplayBattlefield(){
+        println("Name: ${this.name}")
+        println("Health: ${this.health}")
+    }
 
+    fun Attacking(Opponent: Player){
+        if (weapon.attackPower > Opponent.armor.defensePower){
+            var Damage = weapon.attackPower - Opponent.armor.defensePower
+
+            Opponent.health = Opponent.health - Damage
+            println("${Opponent.name} gots damage $Damage")
+        } else {
+            return
+        }
     }
 }
 fun main() {
@@ -49,5 +61,24 @@ fun main() {
     player2.Display()
     println("\n")
 
+    var battleField = true
+    println("=========== BATTLEFIELD ===========")
+    while (battleField) {
+        player1.Attacking(player2)
+        player2.DisplayBattlefield()
+        println("\n")
 
+        player2.Attacking(player1)
+        player1.DisplayBattlefield()
+        println("\n")
+
+        if (player1.health < 0 || player2.health < 0){
+            battleField = false
+            if (player1.health < 0){
+                println("${player1.name} Telah Dikalahkan!!")
+            }else if (player2.health < 0){
+                println("${player2.name} Telah Dikalahkan!!")
+            }
+        }
+    }
 }
